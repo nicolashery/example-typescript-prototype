@@ -1,25 +1,49 @@
 import Navbar from './Navbar'
-import FormList from './FormList'
-
-import { formsData } from './data'
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
+import Forms from './Forms'
+import Account from './Account'
+import FormSettings from './FormSettings'
+import FormQuestions from './FormQuestions'
+import FormResponses from './FormResponses'
+import FormNav from './FormNav'
 
 function App() {
-  const forms = Object.values(formsData).sort((a, b) =>
-    a.name.localeCompare(b.name)
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Navigate to="forms" replace />} />
+        <Route path="forms">
+          <Route index element={<Forms />} />
+          <Route path=":formId" element={<FormLayout />}>
+            <Route index element={<Navigate to="settings" replace />} />
+            <Route path="settings" element={<FormSettings />} />
+            <Route path="questions" element={<FormQuestions />} />
+            <Route path="responses" element={<FormResponses />} />
+          </Route>
+        </Route>
+        <Route path="account" element={<Account />} />
+      </Route>
+    </Routes>
   )
+}
+
+function Layout() {
   return (
     <>
       <Navbar />
       <div className="container margin-top-large">
-        {forms.length === 0 ? (
-          <p>You don't have any forms created yet.</p>
-        ) : null}
-        <p>
-          <a href="#" className="paper-btn btn-primary">
-            Create a new form
-          </a>
-        </p>
-        {forms.length > 0 ? <FormList forms={forms} /> : null}
+        <Outlet />
+      </div>
+    </>
+  )
+}
+
+function FormLayout() {
+  return (
+    <>
+      <FormNav />
+      <div className="margin-top-large">
+        <Outlet />
       </div>
     </>
   )

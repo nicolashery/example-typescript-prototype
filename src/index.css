@@ -1,3 +1,8 @@
 nav ul.inline li a {
   font-size: 1rem;
 }
+
+nav a.active {
+  color: var(--muted);
+  border-bottom-color: var(--muted);
+}
