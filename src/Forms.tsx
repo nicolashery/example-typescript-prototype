@@ -1,10 +1,9 @@
-import { formsData } from './data'
 import FormList from './FormList'
+import { selectAllFormsSortByName } from './formsSlice'
+import { useAppSelector } from './hooks'
 
 function Forms() {
-  const forms = Object.values(formsData).sort((a, b) =>
-    a.name.localeCompare(b.name)
-  )
+  const forms = useAppSelector(selectAllFormsSortByName)
 
   return (
     <>

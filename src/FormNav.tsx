@@ -1,6 +1,7 @@
 import { NavLink, useParams } from 'react-router-dom'
-import { formsData } from './data'
 import { FormId } from './form'
+import { selectFormById } from './formsSlice'
+import { useAppSelector } from './hooks'
 
 type Params = {
   formId: FormId
@@ -8,7 +9,7 @@ type Params = {
 
 function FormNav() {
   const params = useParams() as Params
-  const form = formsData[params.formId]
+  const form = useAppSelector((state) => selectFormById(state, params.formId))
 
   return (
     <>

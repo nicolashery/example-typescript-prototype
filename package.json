@@ -11,10 +11,12 @@
     "nanoid": "nanoid --alphabet 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz --size 11"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.0",
     "nanoid": "^3.3.1",
     "papercss": "^1.8.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.2"
   },
   "devDependencies": {
