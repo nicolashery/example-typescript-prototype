@@ -27,7 +27,11 @@ function FormSettings() {
       return
     }
 
-    const action = formSettingsUpdated(form.id, name, published)
+    const action = formSettingsUpdated({
+      id: form.id,
+      name: name,
+      published: published,
+    })
     dispatch(action)
   }
 

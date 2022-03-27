@@ -1,3 +1,66 @@
 id: aeP73iO5Wz6
 name: Order Request
 published: true
+questions:
+  - tag: singleChoice
+    question:
+      title: Are you a new or existing customer?
+      description:
+      required: false
+      definition:
+        - I am a new customer
+        - I am an existing customer
+  - tag: shortText
+    question:
+      title: What is the item you would like to order?
+      description: Please enter the product number
+      required: true
+      definition:
+  - tag: multipleChoice
+    question:
+      title: What color(s) would you like to order?
+      description:
+      required: false
+      definition:
+        - Red
+        - Blue
+        - Green
+        - Yellow
+  - tag: longText
+    question:
+      title: Product options
+      description: Choose size and number per color
+      required: false
+      definition:
+  - tag: shortText
+    question:
+      title: Your name
+      description:
+      required: true
+      definition:
+  - tag: shortText
+    question:
+      title: Phone number
+      description:
+      required: true
+      definition:
+  - tag: shortText
+    question:
+      title: Email
+      description:
+      required: false
+      definition:
+  - tag: multipleChoice
+    question:
+      title: Preferred contact method
+      description:
+      required: true
+      definition:
+        - Phone
+        - Email
+  - tag: longText
+    question:
+      title: Questions and comments
+      description:
+      required: false
+      definition:

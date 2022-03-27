@@ -12,37 +12,33 @@ export const formsSlice = createSlice({
   initialState,
   reducers: {
     formAdded: {
-      reducer: (state, action: PayloadAction<Form>) => {
-        const form = action.payload
-        state[form.id] = form
-      },
-      prepare: (name: string) => {
+      reducer: (state, action: PayloadAction<{ id: FormId; name: string }>) => {
+        const { id, name } = action.payload
         const form: Form = {
-          id: generateFormId(),
+          id: id,
           name: name,
           published: false,
+          questions: [],
         }
+        state[id] = form
+      },
+      prepare: (name: string) => {
         return {
-          payload: form,
+          payload: {
+            id: generateFormId(),
+            name: name,
+          },
         }
       },
     },
 
-    formSettingsUpdated: {
-      reducer: (state, action: PayloadAction<Form>) => {
-        const form = action.payload
-        state[form.id] = form
-      },
-      prepare: (id: FormId, name: string, published: boolean) => {
-        const form: Form = {
-          id: id,
-          name: name,
-          published: published,
-        }
-        return {
-          payload: form,
-        }
-      },
+    formSettingsUpdated: (
+      state,
+      action: PayloadAction<{ id: FormId; name: string; published: boolean }>
+    ) => {
+      const { id, name, published } = action.payload
+      state[id].name = name
+      state[id].published = published
     },
   },
 })
