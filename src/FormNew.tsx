@@ -20,8 +20,6 @@ function FormNew() {
     const action = formAdded(name)
     dispatch(action)
     navigate(`/forms/${action.payload.id}`)
-
-    console.log(name)
   }
 
   return (

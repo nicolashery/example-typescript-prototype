@@ -6,3 +6,7 @@ nav a.active {
   color: var(--muted);
   border-bottom-color: var(--muted);
 }
+
+.text-small {
+  font-size: 0.8rem;
+}

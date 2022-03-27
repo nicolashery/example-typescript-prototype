@@ -27,10 +27,27 @@ export const formsSlice = createSlice({
         }
       },
     },
+
+    formSettingsUpdated: {
+      reducer: (state, action: PayloadAction<Form>) => {
+        const form = action.payload
+        state[form.id] = form
+      },
+      prepare: (id: FormId, name: string, published: boolean) => {
+        const form: Form = {
+          id: id,
+          name: name,
+          published: published,
+        }
+        return {
+          payload: form,
+        }
+      },
+    },
   },
 })
 
-export const { formAdded } = formsSlice.actions
+export const { formAdded, formSettingsUpdated } = formsSlice.actions
 
 export const selectFormById = (state: RootState, id: FormId): Form => {
   const result = state.forms[id]
