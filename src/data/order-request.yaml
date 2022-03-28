@@ -58,6 +58,16 @@ questions:
       definition:
         - Phone
         - Email
+  - tag: scale
+    question:
+      title: How satisfied are you with our service?
+      description:
+      required: true
+      definition:
+        start: 1
+        end: 5
+        startLabel: Unsatisfied
+        endLabel: Very satisfied
   - tag: longText
     question:
       title: Questions and comments
