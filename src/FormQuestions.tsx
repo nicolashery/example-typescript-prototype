@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
   FormId,
@@ -23,8 +24,11 @@ function FormQuestions() {
 
   return (
     <>
-      {form.questions.map((formQuestion, index) => (
-        <QuestionCard formQuestion={formQuestion} index={index} />
+      {form.questions.map((formQuestion) => (
+        <QuestionCard
+          key={formQuestion.question.id}
+          formQuestion={formQuestion}
+        />
       ))}
     </>
   )
@@ -45,9 +49,8 @@ function showQuestionType(questionType: QuestionType): string {
   }
 }
 
-function QuestionCard(props: { formQuestion: FormQuestion; index: number }) {
+function QuestionCard(props: { formQuestion: FormQuestion }) {
   const { tag, question } = props.formQuestion
-  const { index } = props
 
   const renderQuestion = (): JSX.Element => {
     switch (tag) {
@@ -65,7 +68,7 @@ function QuestionCard(props: { formQuestion: FormQuestion; index: number }) {
   }
 
   return (
-    <div key={index} className="card margin-bottom">
+    <div className="card margin-bottom">
       <div className="card-body">
         <h5 className="card-subtitle">{showQuestionType(tag)}</h5>
         <form>{renderQuestion()}</form>
@@ -87,13 +90,18 @@ function QuestionMetadata<T>(props: { question: Question<T> }) {
           name="title"
           className="input-block"
           value={question.title}
+          onChange={() => {}}
         />
       </div>
       <div className="form-group">
         <label htmlFor="description">Description</label>
-        <textarea id="description" name="description" className="input-block">
-          {question.description}
-        </textarea>
+        <textarea
+          id="description"
+          name="description"
+          className="input-block"
+          value={question.description || ''}
+          onChange={() => {}}
+        ></textarea>
       </div>
       <fieldset className="form-group">
         <label className="paper-switch-2">
@@ -102,6 +110,7 @@ function QuestionMetadata<T>(props: { question: Question<T> }) {
             name="required"
             type="checkbox"
             checked={question.required}
+            onChange={() => {}}
           />
           <span className="paper-switch-slider round" />
         </label>
@@ -141,18 +150,17 @@ function QuestionSingleChoice(props: { question: Question<SingleChoice> }) {
       <QuestionMetadata question={question} />
       <fieldset className="form-group">
         <legend>Choices:</legend>
-        {question.definition.map((choice, index) => {
-          const choiceKey = `${choice} ${index}`
+        {question.definition.map((choice) => {
           return (
-            <label htmlFor={choiceKey} className="paper-radio">
+            <label key={choice.id} htmlFor={choice.id} className="paper-radio">
               <input
                 type="radio"
                 name="choice"
-                id={choiceKey}
-                defaultValue={choice}
+                id={choice.id}
+                defaultValue={choice.value}
                 disabled={true}
               />{' '}
-              <span>{choice}</span>
+              <span>{choice.value}</span>
             </label>
           )
         })}
@@ -169,18 +177,17 @@ function QuestionMultipleChoice(props: { question: Question<MultipleChoice> }) {
       <QuestionMetadata question={question} />
       <fieldset className="form-group">
         <legend>Options:</legend>
-        {question.definition.map((choice, index) => {
-          const choiceKey = `${choice} ${index}`
+        {question.definition.map((choice) => {
           return (
-            <label htmlFor={choiceKey} className="paper-radio">
+            <label key={choice.id} htmlFor={choice.id} className="paper-radio">
               <input
                 type="checkbox"
                 name="options"
-                id={choiceKey}
-                defaultValue={choice}
+                id={choice.id}
+                defaultValue={choice.value}
                 disabled={true}
               />{' '}
-              <span>{choice}</span>
+              <span>{choice.value}</span>
             </label>
           )
         })}
@@ -206,6 +213,7 @@ function QuestionScale(props: { question: Question<Scale> }) {
               name="start"
               className="input-block"
               value={definition.start}
+              onChange={() => {}}
             />
           </div>
         </div>
@@ -218,6 +226,7 @@ function QuestionScale(props: { question: Question<Scale> }) {
               name="startLabel"
               className="input-block"
               value={definition.startLabel}
+              onChange={() => {}}
             />
           </div>
         </div>
@@ -232,6 +241,7 @@ function QuestionScale(props: { question: Question<Scale> }) {
               name="end"
               className="input-block"
               value={definition.end}
+              onChange={() => {}}
             />
           </div>
         </div>
@@ -244,6 +254,7 @@ function QuestionScale(props: { question: Question<Scale> }) {
               name="endLabel"
               className="input-block"
               value={definition.endLabel}
+              onChange={() => {}}
             />
           </div>
         </div>

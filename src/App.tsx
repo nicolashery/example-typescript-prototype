@@ -33,7 +33,7 @@ function Layout() {
   return (
     <>
       <Navbar />
-      <div className="container margin-top-large">
+      <div className="container margin-top-large margin-bottom-large">
         <Outlet />
       </div>
     </>
@@ -44,7 +44,7 @@ function FormLayout() {
   return (
     <>
       <FormNav />
-      <div className="margin-top-large">
+      <div className="margin-top-large margin-bottom-large">
         <Outlet />
       </div>
     </>

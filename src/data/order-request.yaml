@@ -4,62 +4,79 @@ published: true
 questions:
   - tag: singleChoice
     question:
+      id: 6funH6yhl1w
       title: Are you a new or existing customer?
       description:
       required: false
       definition:
-        - I am a new customer
-        - I am an existing customer
+        - id: 26LQFQmxRk5
+          value: I am a new customer
+        - id: NqJ5OnW2f7h
+          value: I am an existing customer
   - tag: shortText
     question:
+      id: 2pvw12vyuIT
       title: What is the item you would like to order?
       description: Please enter the product number
       required: true
       definition:
   - tag: multipleChoice
     question:
+      id: VusI9Np62Gu
       title: What color(s) would you like to order?
       description:
       required: false
       definition:
-        - Red
-        - Blue
-        - Green
-        - Yellow
+        - id: Ur3nCRVZ2NA
+          value: Red
+        - id: n8iWQ0LpVdE
+          value: Blue
+        - id: L4bjEfcWYvt
+          value: Green
+        - id: fxxGean74tf
+          value: Yellow
   - tag: longText
     question:
+      id: 6GpGeIUd0oB
       title: Product options
       description: Choose size and number per color
       required: false
       definition:
   - tag: shortText
     question:
+      id: 1zv6A33Xziq
       title: Your name
       description:
       required: true
       definition:
   - tag: shortText
     question:
+      id: TYkE81nSkHm
       title: Phone number
       description:
       required: true
       definition:
   - tag: shortText
     question:
+      id: PfGdb7GW1r1
       title: Email
       description:
       required: false
       definition:
   - tag: multipleChoice
     question:
+      id: YFCnjOKZSTS
       title: Preferred contact method
       description:
       required: true
       definition:
-        - Phone
-        - Email
+        - id: OZC0TygT8ES
+          value: Phone
+        - id: 2ZUCXIYEQS6
+          value: Email
   - tag: scale
     question:
+      id: YHsH1aNmj0W
       title: How satisfied are you with our service?
       description:
       required: true
@@ -70,6 +87,7 @@ questions:
         endLabel: Very satisfied
   - tag: longText
     question:
+      id: qkFCiIcOrbb
       title: Questions and comments
       description:
       required: false
