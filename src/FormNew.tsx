@@ -8,7 +8,7 @@ function FormNew() {
   const navigate = useNavigate()
 
   const [name, setName] = useState('')
-  const onNameChanged: React.ChangeEventHandler<HTMLInputElement> = (e) =>
+  const handleNameChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
     setName(e.target.value)
 
   const onSubmit: React.FormEventHandler = (e) => {
@@ -33,7 +33,7 @@ function FormNew() {
             id="name"
             name="name"
             value={name}
-            onChange={onNameChanged}
+            onChange={handleNameChange}
           />
         </div>
         <input type="submit" className="paper-btn btn-primary" value="Create" />

@@ -37,6 +37,14 @@ export type FormQuestion =
 
 export type QuestionType = FormQuestion['tag']
 
+export const allQuestionTypes: Array<QuestionType> = [
+  'shortText',
+  'longText',
+  'singleChoice',
+  'multipleChoice',
+  'scale',
+]
+
 export type Question<T> = {
   id: QuestionId
   title: string

@@ -1,7 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from './store'
 import { formsData } from './data'
-import { Form, FormId, generateFormId } from './form'
+import {
+  Form,
+  FormId,
+  FormQuestion,
+  generateFormId,
+  generateQuestionId,
+} from './form'
+import FormQuestions from './FormQuestions'
+import produce from 'immer'
 
 type FormsState = { [key: FormId]: Form }
 
@@ -40,10 +48,31 @@ export const formsSlice = createSlice({
       state[id].name = name
       state[id].published = published
     },
+
+    questionAdded: {
+      reducer: (
+        state,
+        action: PayloadAction<{ formId: FormId; formQuestion: FormQuestion }>
+      ) => {
+        const { formId, formQuestion } = action.payload
+        state[formId].questions.push(formQuestion)
+      },
+      prepare: (formId: FormId, formQuestion: FormQuestion) => {
+        return {
+          payload: {
+            formId: formId,
+            formQuestion: produce(formQuestion, (draft) => {
+              draft.question.id = generateQuestionId()
+            }),
+          },
+        }
+      },
+    },
   },
 })
 
-export const { formAdded, formSettingsUpdated } = formsSlice.actions
+export const { formAdded, formSettingsUpdated, questionAdded } =
+  formsSlice.actions
 
 export const selectFormById = (state: RootState, id: FormId): Form => {
   const result = state.forms[id]
