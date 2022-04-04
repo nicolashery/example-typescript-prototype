@@ -4,6 +4,7 @@ import produce from 'immer'
 import {
   allQuestionTypes,
   Choice,
+  ChoiceId,
   FormId,
   FormQuestion,
   generateChoiceId,
@@ -205,6 +206,39 @@ function QuestionSingleChoice(props: {
 }) {
   const { question, onQuestionChange } = props
 
+  let newChoice: JSX.Element | undefined
+  let removeChoice: (choiceId: ChoiceId) => JSX.Element | undefined
+  if (onQuestionChange) {
+    const handleAddChoice = (choice: Choice) =>
+      onQuestionChange(
+        produce(question, (draft) => {
+          draft.definition.push(choice)
+        })
+      )
+    newChoice = <NewChoice onAddChoice={handleAddChoice} />
+
+    const handleRemoveChoice = (choiceId: ChoiceId) =>
+      onQuestionChange(
+        produce(question, (draft) => {
+          draft.definition = draft.definition.filter(
+            (choice) => choice.id !== choiceId
+          )
+        })
+      )
+    removeChoice = (choiceId: ChoiceId) => (
+      <a
+        href="#"
+        className="inline-block margin-left-small text-small"
+        onClick={(e) => {
+          e.preventDefault()
+          handleRemoveChoice(choiceId)
+        }}
+      >
+        Remove
+      </a>
+    )
+  }
+
   return (
     <>
       <QuestionMetadata
@@ -223,22 +257,13 @@ function QuestionSingleChoice(props: {
                 value={choice.value}
                 disabled={true}
               />{' '}
-              <span>{choice.value}</span>
+              <span className="inline-block">{choice.value}</span>
+              {removeChoice ? removeChoice(choice.id) : null}
             </label>
           )
         })}
       </fieldset>
-      {onQuestionChange ? (
-        <NewChoice
-          onAddChoice={(choice) =>
-            onQuestionChange(
-              produce(question, (draft) => {
-                draft.definition.push(choice)
-              })
-            )
-          }
-        />
-      ) : null}
+      {newChoice}
     </>
   )
 }
@@ -248,6 +273,39 @@ function QuestionMultipleChoice(props: {
   onQuestionChange?: (question: Question<MultipleChoice>) => void
 }) {
   const { question, onQuestionChange } = props
+
+  let newChoice: JSX.Element | undefined
+  let removeChoice: (choiceId: ChoiceId) => JSX.Element | undefined
+  if (onQuestionChange) {
+    const handleAddChoice = (choice: Choice) =>
+      onQuestionChange(
+        produce(question, (draft) => {
+          draft.definition.push(choice)
+        })
+      )
+    newChoice = <NewChoice onAddChoice={handleAddChoice} />
+
+    const handleRemoveChoice = (choiceId: ChoiceId) =>
+      onQuestionChange(
+        produce(question, (draft) => {
+          draft.definition = draft.definition.filter(
+            (choice) => choice.id !== choiceId
+          )
+        })
+      )
+    removeChoice = (choiceId: ChoiceId) => (
+      <a
+        href="#"
+        className="inline-block margin-left-small text-small"
+        onClick={(e) => {
+          e.preventDefault()
+          handleRemoveChoice(choiceId)
+        }}
+      >
+        Remove
+      </a>
+    )
+  }
 
   return (
     <>
@@ -267,22 +325,13 @@ function QuestionMultipleChoice(props: {
                 value={choice.value}
                 disabled={true}
               />{' '}
-              <span>{choice.value}</span>
+              <span className="inline-block">{choice.value}</span>
+              {removeChoice ? removeChoice(choice.id) : null}
             </label>
           )
         })}
       </fieldset>
-      {onQuestionChange ? (
-        <NewChoice
-          onAddChoice={(choice) =>
-            onQuestionChange(
-              produce(question, (draft) => {
-                draft.definition.push(choice)
-              })
-            )
-          }
-        />
-      ) : null}
+      {newChoice}
     </>
   )
 }
@@ -312,7 +361,7 @@ function NewChoice(props: { onAddChoice: (choice: Choice) => void }) {
         onChange={handleChoiceValueChange}
       />
       <button
-        className="btn-small btn-primary margin-left"
+        className="btn-small btn-primary margin-left-small"
         onClick={handleAddChoice}
       >
         Add choice

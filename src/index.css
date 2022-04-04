@@ -12,5 +12,5 @@ nav a.active {
 }
 
 .inline-block {
-  display: inline-block;
+  display: inline-block !important;
 }
