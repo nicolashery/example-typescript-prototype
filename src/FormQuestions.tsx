@@ -3,8 +3,10 @@ import { useParams } from 'react-router-dom'
 import produce from 'immer'
 import {
   allQuestionTypes,
+  Choice,
   FormId,
   FormQuestion,
+  generateChoiceId,
   LongText,
   MultipleChoice,
   Question,
@@ -219,13 +221,24 @@ function QuestionSingleChoice(props: {
                 name="choice"
                 id={choice.id}
                 value={choice.value}
-                readOnly={true}
+                disabled={true}
               />{' '}
               <span>{choice.value}</span>
             </label>
           )
         })}
       </fieldset>
+      {onQuestionChange ? (
+        <NewChoice
+          onAddChoice={(choice) =>
+            onQuestionChange(
+              produce(question, (draft) => {
+                draft.definition.push(choice)
+              })
+            )
+          }
+        />
+      ) : null}
     </>
   )
 }
@@ -243,23 +256,68 @@ function QuestionMultipleChoice(props: {
         onQuestionChange={onQuestionChange}
       />
       <fieldset className="form-group">
-        <legend>Options:</legend>
+        <legend>Choices:</legend>
         {question.definition.map((choice) => {
           return (
             <label key={choice.id} htmlFor={choice.id} className="paper-radio">
               <input
                 type="checkbox"
-                name="options"
+                name="choices"
                 id={choice.id}
                 value={choice.value}
-                readOnly={true}
+                disabled={true}
               />{' '}
               <span>{choice.value}</span>
             </label>
           )
         })}
       </fieldset>
+      {onQuestionChange ? (
+        <NewChoice
+          onAddChoice={(choice) =>
+            onQuestionChange(
+              produce(question, (draft) => {
+                draft.definition.push(choice)
+              })
+            )
+          }
+        />
+      ) : null}
     </>
+  )
+}
+
+function NewChoice(props: { onAddChoice: (choice: Choice) => void }) {
+  const [choiceValue, setChoiceValue] = useState('')
+  const handleChoiceValueChange: React.ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) => setChoiceValue(e.target.value)
+
+  const handleAddChoice: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault()
+    setChoiceValue('')
+    props.onAddChoice({
+      id: generateChoiceId(),
+      value: choiceValue,
+    })
+  }
+
+  return (
+    <div className="form-group">
+      <input
+        type="text"
+        className="inline-block"
+        placeholder="New choice"
+        value={choiceValue}
+        onChange={handleChoiceValueChange}
+      />
+      <button
+        className="btn-small btn-primary margin-left"
+        onClick={handleAddChoice}
+      >
+        Add choice
+      </button>
+    </div>
   )
 }
 

@@ -10,3 +10,7 @@ nav a.active {
 .text-small {
   font-size: 0.8rem;
 }
+
+.inline-block {
+  display: inline-block;
+}
