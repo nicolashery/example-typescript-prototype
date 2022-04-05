@@ -35,7 +35,7 @@ function FormQuestions() {
           formQuestion={formQuestion}
         />
       ))}
-      <QuestionNew formId={params.formId} />
+      <QuestionCreate formId={params.formId} />
     </>
   )
 }
@@ -58,7 +58,9 @@ function showQuestionType(questionType: QuestionType): string {
 function QuestionCard(props: { formQuestion: FormQuestion }) {
   const { tag, question } = props.formQuestion
 
-  const renderQuestion = (): JSX.Element => {
+  const [showQuestionEdit, setQuestionEdit] = useState(false)
+
+  let renderQuestion = (): JSX.Element => {
     switch (tag) {
       case 'shortText':
         return <QuestionShortText question={question} />
@@ -72,18 +74,57 @@ function QuestionCard(props: { formQuestion: FormQuestion }) {
         return <QuestionScale question={question} />
     }
   }
+  if (showQuestionEdit) {
+    renderQuestion = () => {
+      switch (tag) {
+        case 'shortText':
+          return <QuestionShortTextEdit question={question} />
+        case 'longText':
+          return <QuestionLongTextEdit question={question} />
+        case 'singleChoice':
+          return <QuestionSingleChoiceEdit question={question} />
+        case 'multipleChoice':
+          return <QuestionMultipleChoiceEdit question={question} />
+        case 'scale':
+          return <QuestionScaleEdit question={question} />
+      }
+    }
+  }
 
   return (
     <div className="card margin-bottom">
       <div className="card-body">
         <h5 className="card-subtitle">{showQuestionType(tag)}</h5>
-        <form>{renderQuestion()}</form>
+        {renderQuestion()}
       </div>
     </div>
   )
 }
 
-function QuestionMetadata<T>(props: {
+function QuestionMetadata<T>(props: { question: Question<T> }) {
+  const { question } = props
+
+  const requiredElement = question.required ? (
+    <span className="text-danger"> *</span>
+  ) : null
+
+  const descriptionElement =
+    question.description && question.description !== '' ? (
+      <p className="text-small text-muted">{question.description}</p>
+    ) : null
+
+  return (
+    <>
+      <p>
+        {question.title}
+        {requiredElement}
+      </p>
+      {descriptionElement}
+    </>
+  )
+}
+
+function QuestionMetadataEdit<T>(props: {
   question: Question<T>
   onQuestionChange?: (question: Question<T>) => void
 }) {
@@ -168,7 +209,18 @@ function QuestionMetadata<T>(props: {
   )
 }
 
-function QuestionShortText(props: {
+function QuestionShortText(props: { question: Question<ShortText> }) {
+  return (
+    <>
+      <QuestionMetadata question={props.question} />
+      <div className="form-group">
+        <input className="input-block" type="text" readOnly={true} />
+      </div>
+    </>
+  )
+}
+
+function QuestionShortTextEdit(props: {
   question: Question<ShortText>
   onQuestionChange?: (question: Question<ShortText>) => void
 }) {
@@ -176,7 +228,7 @@ function QuestionShortText(props: {
 
   return (
     <>
-      <QuestionMetadata
+      <QuestionMetadataEdit
         question={question}
         onQuestionChange={onQuestionChange}
       />
@@ -184,7 +236,18 @@ function QuestionShortText(props: {
   )
 }
 
-function QuestionLongText(props: {
+function QuestionLongText(props: { question: Question<LongText> }) {
+  return (
+    <>
+      <QuestionMetadata question={props.question} />
+      <div className="form-group">
+        <textarea className="input-block" readOnly={true}></textarea>
+      </div>
+    </>
+  )
+}
+
+function QuestionLongTextEdit(props: {
   question: Question<LongText>
   onQuestionChange?: (question: Question<LongText>) => void
 }) {
@@ -192,7 +255,7 @@ function QuestionLongText(props: {
 
   return (
     <>
-      <QuestionMetadata
+      <QuestionMetadataEdit
         question={question}
         onQuestionChange={onQuestionChange}
       />
@@ -200,7 +263,25 @@ function QuestionLongText(props: {
   )
 }
 
-function QuestionSingleChoice(props: {
+function QuestionSingleChoice(props: { question: Question<SingleChoice> }) {
+  return (
+    <>
+      <QuestionMetadata question={props.question} />
+      <fieldset className="form-group">
+        {props.question.definition.map((choice) => {
+          return (
+            <label key={choice.id} className="paper-radio">
+              <input type="radio" value={choice.value} disabled={true} />{' '}
+              <span className="inline-block">{choice.value}</span>
+            </label>
+          )
+        })}
+      </fieldset>
+    </>
+  )
+}
+
+function QuestionSingleChoiceEdit(props: {
   question: Question<SingleChoice>
   onQuestionChange?: (question: Question<SingleChoice>) => void
 }) {
@@ -241,7 +322,7 @@ function QuestionSingleChoice(props: {
 
   return (
     <>
-      <QuestionMetadata
+      <QuestionMetadataEdit
         question={question}
         onQuestionChange={onQuestionChange}
       />
@@ -268,7 +349,25 @@ function QuestionSingleChoice(props: {
   )
 }
 
-function QuestionMultipleChoice(props: {
+function QuestionMultipleChoice(props: { question: Question<MultipleChoice> }) {
+  return (
+    <>
+      <QuestionMetadata question={props.question} />
+      <fieldset className="form-group">
+        {props.question.definition.map((choice) => {
+          return (
+            <label key={choice.id} className="paper-check">
+              <input type="checkbox" value={choice.value} disabled={true} />{' '}
+              <span className="inline-block">{choice.value}</span>
+            </label>
+          )
+        })}
+      </fieldset>
+    </>
+  )
+}
+
+function QuestionMultipleChoiceEdit(props: {
   question: Question<MultipleChoice>
   onQuestionChange?: (question: Question<MultipleChoice>) => void
 }) {
@@ -309,7 +408,7 @@ function QuestionMultipleChoice(props: {
 
   return (
     <>
-      <QuestionMetadata
+      <QuestionMetadataEdit
         question={question}
         onQuestionChange={onQuestionChange}
       />
@@ -317,7 +416,7 @@ function QuestionMultipleChoice(props: {
         <legend>Choices:</legend>
         {question.definition.map((choice) => {
           return (
-            <label key={choice.id} htmlFor={choice.id} className="paper-radio">
+            <label key={choice.id} htmlFor={choice.id} className="paper-check">
               <input
                 type="checkbox"
                 name="choices"
@@ -370,7 +469,34 @@ function NewChoice(props: { onAddChoice: (choice: Choice) => void }) {
   )
 }
 
-function QuestionScale(props: {
+function QuestionScale(props: { question: Question<Scale> }) {
+  const definition = props.question.definition
+  return (
+    <>
+      <QuestionMetadata question={props.question} />
+      <div className="form-group">
+        <div className="row">
+          <div className="col sm-3 text-right">
+            {`${definition.startLabel} (${definition.start})`}
+          </div>
+          <div className="col sm-6">
+            <input
+              className="input-block"
+              type="range"
+              min={definition.start}
+              max={definition.end}
+            />
+          </div>
+          <div className="col sm-3">
+            {`(${definition.end}) ${definition.endLabel}`}
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function QuestionScaleEdit(props: {
   question: Question<Scale>
   onQuestionChange?: (question: Question<Scale>) => void
 }) {
@@ -424,7 +550,7 @@ function QuestionScale(props: {
 
   return (
     <>
-      <QuestionMetadata
+      <QuestionMetadataEdit
         question={question}
         onQuestionChange={onQuestionChange}
       />
@@ -492,11 +618,11 @@ function QuestionScale(props: {
   )
 }
 
-function QuestionNew(props: { formId: FormId }) {
+function QuestionCreate(props: { formId: FormId }) {
   const { formId } = props
   const dispatch = useAppDispatch()
 
-  const [showQuestionNew, setShowQuestionNew] = useState(false)
+  const [showQuestionCreate, setShowQuestionCreate] = useState(false)
 
   const initialFormQuestion: FormQuestion = newFormQuestion('shortText')
 
@@ -521,25 +647,25 @@ function QuestionNew(props: { formId: FormId }) {
 
   const onCancel: React.MouseEventHandler = (e) => {
     e.preventDefault()
-    setShowQuestionNew(false)
+    setShowQuestionCreate(false)
     resetForm()
   }
 
   const onSubmit: React.FormEventHandler = (e) => {
     e.preventDefault()
 
-    setShowQuestionNew(false)
+    setShowQuestionCreate(false)
     resetForm()
 
     dispatch(questionAdded(formId, formQuestion))
   }
 
-  if (!showQuestionNew) {
+  if (!showQuestionCreate) {
     return (
       <p className="row flex-right">
         <button
           className="btn-primary"
-          onClick={() => setShowQuestionNew(true)}
+          onClick={() => setShowQuestionCreate(true)}
         >
           Add question
         </button>
@@ -551,7 +677,7 @@ function QuestionNew(props: { formId: FormId }) {
     switch (formQuestion.tag) {
       case 'shortText':
         return (
-          <QuestionShortText
+          <QuestionShortTextEdit
             question={formQuestion.question}
             onQuestionChange={(question) =>
               setFormQuestion({ tag: 'shortText', question: question })
@@ -560,7 +686,7 @@ function QuestionNew(props: { formId: FormId }) {
         )
       case 'longText':
         return (
-          <QuestionLongText
+          <QuestionLongTextEdit
             question={formQuestion.question}
             onQuestionChange={(question) =>
               setFormQuestion({ tag: 'longText', question: question })
@@ -569,7 +695,7 @@ function QuestionNew(props: { formId: FormId }) {
         )
       case 'singleChoice':
         return (
-          <QuestionSingleChoice
+          <QuestionSingleChoiceEdit
             question={formQuestion.question}
             onQuestionChange={(question) =>
               setFormQuestion({ tag: 'singleChoice', question: question })
@@ -578,7 +704,7 @@ function QuestionNew(props: { formId: FormId }) {
         )
       case 'multipleChoice':
         return (
-          <QuestionMultipleChoice
+          <QuestionMultipleChoiceEdit
             question={formQuestion.question}
             onQuestionChange={(question) =>
               setFormQuestion({ tag: 'multipleChoice', question: question })
@@ -587,7 +713,7 @@ function QuestionNew(props: { formId: FormId }) {
         )
       case 'scale':
         return (
-          <QuestionScale
+          <QuestionScaleEdit
             question={formQuestion.question}
             onQuestionChange={(question) =>
               setFormQuestion({ tag: 'scale', question: question })

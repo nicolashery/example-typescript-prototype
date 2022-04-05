@@ -14,3 +14,7 @@ nav a.active {
 .inline-block {
   display: inline-block !important;
 }
+
+.text-right {
+  text-align: right;
+}

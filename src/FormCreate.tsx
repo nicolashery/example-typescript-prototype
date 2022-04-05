@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { formAdded } from './formsSlice'
 import { useAppDispatch } from './hooks'
 
-function FormNew() {
+function FormCreate() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -45,4 +45,4 @@ function FormNew() {
   )
 }
 
-export default FormNew
+export default FormCreate
