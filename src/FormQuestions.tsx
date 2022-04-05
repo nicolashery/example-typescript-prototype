@@ -376,6 +376,51 @@ function QuestionScale(props: {
 }) {
   const { question, onQuestionChange } = props
   const definition = question.definition
+  const readOnly = !onQuestionChange
+
+  const handleStartChange:
+    | React.ChangeEventHandler<HTMLInputElement>
+    | undefined = onQuestionChange
+    ? (e) =>
+        onQuestionChange(
+          produce(question, (draft) => {
+            draft.definition.start = e.target.valueAsNumber
+          })
+        )
+    : undefined
+
+  const handleEndChange:
+    | React.ChangeEventHandler<HTMLInputElement>
+    | undefined = onQuestionChange
+    ? (e) =>
+        onQuestionChange(
+          produce(question, (draft) => {
+            draft.definition.end = e.target.valueAsNumber
+          })
+        )
+    : undefined
+
+  const handleStartLabelChange:
+    | React.ChangeEventHandler<HTMLInputElement>
+    | undefined = onQuestionChange
+    ? (e) =>
+        onQuestionChange(
+          produce(question, (draft) => {
+            draft.definition.startLabel = e.target.value
+          })
+        )
+    : undefined
+
+  const handleEndLabelChange:
+    | React.ChangeEventHandler<HTMLInputElement>
+    | undefined = onQuestionChange
+    ? (e) =>
+        onQuestionChange(
+          produce(question, (draft) => {
+            draft.definition.endLabel = e.target.value
+          })
+        )
+    : undefined
 
   return (
     <>
@@ -393,8 +438,8 @@ function QuestionScale(props: {
               name="start"
               className="input-block"
               value={definition.start}
-              onChange={() => {}}
-              readOnly={true}
+              onChange={handleStartChange}
+              readOnly={readOnly}
             />
           </div>
         </div>
@@ -407,8 +452,8 @@ function QuestionScale(props: {
               name="startLabel"
               className="input-block"
               value={definition.startLabel}
-              onChange={() => {}}
-              readOnly={true}
+              onChange={handleStartLabelChange}
+              readOnly={readOnly}
             />
           </div>
         </div>
@@ -423,8 +468,8 @@ function QuestionScale(props: {
               name="end"
               className="input-block"
               value={definition.end}
-              onChange={() => {}}
-              readOnly={true}
+              onChange={handleEndChange}
+              readOnly={readOnly}
             />
           </div>
         </div>
@@ -437,8 +482,8 @@ function QuestionScale(props: {
               name="endLabel"
               className="input-block"
               value={definition.endLabel}
-              onChange={() => {}}
-              readOnly={true}
+              onChange={handleEndLabelChange}
+              readOnly={readOnly}
             />
           </div>
         </div>
