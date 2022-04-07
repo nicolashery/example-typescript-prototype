@@ -8,14 +8,14 @@ function Account() {
   const dispatch = useAppDispatch()
 
   const [name, setName] = useState(user.name)
-  const onNameChanged: React.ChangeEventHandler<HTMLInputElement> = (e) =>
+  const handleNameChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
     setName(e.target.value)
 
   const [email, setEmail] = useState(user.email)
-  const onEmailChanged: React.ChangeEventHandler<HTMLInputElement> = (e) =>
+  const handleEmailChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
     setEmail(e.target.value)
 
-  const onSubmit: React.FormEventHandler = (e) => {
+  const handleSubmit: React.FormEventHandler = (e) => {
     e.preventDefault()
     if (name.trim().length === 0) {
       return
@@ -32,7 +32,7 @@ function Account() {
   return (
     <>
       <h3>Account</h3>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input
@@ -40,7 +40,7 @@ function Account() {
             id="name"
             name="name"
             value={name}
-            onChange={onNameChanged}
+            onChange={handleNameChange}
           />
         </div>
         <div className="form-group">
@@ -50,7 +50,7 @@ function Account() {
             id="email"
             name="email"
             value={email}
-            onChange={onEmailChanged}
+            onChange={handleEmailChange}
           />
         </div>
         <input type="submit" className="paper-btn btn-primary" value="Save" />

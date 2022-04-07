@@ -11,7 +11,7 @@ function FormCreate() {
   const handleNameChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
     setName(e.target.value)
 
-  const onSubmit: React.FormEventHandler = (e) => {
+  const handleSubmit: React.FormEventHandler = (e) => {
     e.preventDefault()
     if (name.trim().length === 0) {
       return
@@ -25,7 +25,7 @@ function FormCreate() {
   return (
     <>
       <h3>New form</h3>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input

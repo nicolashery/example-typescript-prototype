@@ -16,7 +16,7 @@ import {
   ShortText,
   SingleChoice,
 } from './form'
-import { questionAdded, selectFormById } from './formsSlice'
+import { questionAdded, questionUpdated, selectFormById } from './formsSlice'
 import { useAppDispatch, useAppSelector } from './hooks'
 
 type Params = {
@@ -32,6 +32,7 @@ function FormQuestions() {
       {form.questions.map((formQuestion) => (
         <QuestionCard
           key={formQuestion.question.id}
+          formId={params.formId}
           formQuestion={formQuestion}
         />
       ))}
@@ -55,7 +56,9 @@ function showQuestionType(questionType: QuestionType): string {
   }
 }
 
-function QuestionCard(props: { formQuestion: FormQuestion }) {
+function QuestionCard(props: { formId: FormId; formQuestion: FormQuestion }) {
+  const dispatch = useAppDispatch()
+
   const { tag, question } = props.formQuestion
 
   const [showQuestionEdit, setQuestionEdit] = useState(false)
@@ -74,21 +77,40 @@ function QuestionCard(props: { formQuestion: FormQuestion }) {
         return <QuestionScale question={question} />
     }
   }
+
+  let editButton: JSX.Element | null = (
+    <div className="text-right">
+      <a
+        href="#"
+        className="inline-block"
+        onClick={(e) => {
+          e.preventDefault()
+          setQuestionEdit(true)
+        }}
+      >
+        Edit
+      </a>
+    </div>
+  )
+
   if (showQuestionEdit) {
-    renderQuestion = () => {
-      switch (tag) {
-        case 'shortText':
-          return <QuestionShortTextEdit question={question} />
-        case 'longText':
-          return <QuestionLongTextEdit question={question} />
-        case 'singleChoice':
-          return <QuestionSingleChoiceEdit question={question} />
-        case 'multipleChoice':
-          return <QuestionMultipleChoiceEdit question={question} />
-        case 'scale':
-          return <QuestionScaleEdit question={question} />
-      }
-    }
+    renderQuestion = () => (
+      <QuestionEdit
+        formQuestion={props.formQuestion}
+        onCancel={() => setQuestionEdit(false)}
+        onSubmit={(formQuestion) => {
+          setQuestionEdit(false)
+          dispatch(
+            questionUpdated({
+              formId: props.formId,
+              formQuestion: formQuestion,
+            })
+          )
+        }}
+      />
+    )
+
+    editButton = null
   }
 
   return (
@@ -96,6 +118,7 @@ function QuestionCard(props: { formQuestion: FormQuestion }) {
       <div className="card-body">
         <h5 className="card-subtitle">{showQuestionType(tag)}</h5>
         {renderQuestion()}
+        {editButton}
       </div>
     </div>
   )
@@ -618,6 +641,89 @@ function QuestionScaleEdit(props: {
   )
 }
 
+function QuestionEdit(props: {
+  formQuestion: FormQuestion
+  onCancel: () => void
+  onSubmit: (formQuestion: FormQuestion) => void
+}) {
+  const [formQuestion, setFormQuestion] = useState(props.formQuestion)
+
+  const handleCancel: React.MouseEventHandler = (e) => {
+    e.preventDefault()
+    props.onCancel()
+  }
+
+  const handleSubmit: React.FormEventHandler = (e) => {
+    e.preventDefault()
+    props.onSubmit(formQuestion)
+  }
+
+  const renderQuestion = (): JSX.Element => {
+    switch (formQuestion.tag) {
+      case 'shortText':
+        return (
+          <QuestionShortTextEdit
+            question={formQuestion.question}
+            onQuestionChange={(question) =>
+              setFormQuestion({ tag: 'shortText', question: question })
+            }
+          />
+        )
+      case 'longText':
+        return (
+          <QuestionLongTextEdit
+            question={formQuestion.question}
+            onQuestionChange={(question) =>
+              setFormQuestion({ tag: 'longText', question: question })
+            }
+          />
+        )
+      case 'singleChoice':
+        return (
+          <QuestionSingleChoiceEdit
+            question={formQuestion.question}
+            onQuestionChange={(question) =>
+              setFormQuestion({ tag: 'singleChoice', question: question })
+            }
+          />
+        )
+      case 'multipleChoice':
+        return (
+          <QuestionMultipleChoiceEdit
+            question={formQuestion.question}
+            onQuestionChange={(question) =>
+              setFormQuestion({ tag: 'multipleChoice', question: question })
+            }
+          />
+        )
+      case 'scale':
+        return (
+          <QuestionScaleEdit
+            question={formQuestion.question}
+            onQuestionChange={(question) =>
+              setFormQuestion({ tag: 'scale', question: question })
+            }
+          />
+        )
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {renderQuestion()}
+      <div className="row flex-right">
+        <input
+          type="button"
+          className="paper-btn margin-right"
+          onClick={handleCancel}
+          value="Cancel"
+        />
+        <input type="submit" className="paper-btn btn-primary" value="Save" />
+      </div>
+    </form>
+  )
+}
+
 function QuestionCreate(props: { formId: FormId }) {
   const { formId } = props
   const dispatch = useAppDispatch()
@@ -645,13 +751,13 @@ function QuestionCreate(props: { formId: FormId }) {
     setFormQuestion(initialFormQuestion)
   }
 
-  const onCancel: React.MouseEventHandler = (e) => {
+  const handleCancel: React.MouseEventHandler = (e) => {
     e.preventDefault()
     setShowQuestionCreate(false)
     resetForm()
   }
 
-  const onSubmit: React.FormEventHandler = (e) => {
+  const handleSubmit: React.FormEventHandler = (e) => {
     e.preventDefault()
 
     setShowQuestionCreate(false)
@@ -727,7 +833,7 @@ function QuestionCreate(props: { formId: FormId }) {
     <div className="card margin-bottom">
       <div className="card-body">
         <h5 className="card-subtitle">New question</h5>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="questionType">Question type</label>
             <select
@@ -747,7 +853,7 @@ function QuestionCreate(props: { formId: FormId }) {
             <input
               type="button"
               className="paper-btn margin-right"
-              onClick={onCancel}
+              onClick={handleCancel}
               value="Cancel"
             />
             <input

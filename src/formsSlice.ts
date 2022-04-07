@@ -68,11 +68,26 @@ export const formsSlice = createSlice({
         }
       },
     },
+
+    questionUpdated: (
+      state,
+      action: PayloadAction<{ formId: FormId; formQuestion: FormQuestion }>
+    ) => {
+      const { formId, formQuestion } = action.payload
+      const questionIndex = state[formId].questions.findIndex(
+        (x) => x.question.id === formQuestion.question.id
+      )
+      state[formId].questions[questionIndex] = formQuestion
+    },
   },
 })
 
-export const { formAdded, formSettingsUpdated, questionAdded } =
-  formsSlice.actions
+export const {
+  formAdded,
+  formSettingsUpdated,
+  questionAdded,
+  questionUpdated,
+} = formsSlice.actions
 
 export const selectFormById = (state: RootState, id: FormId): Form => {
   const result = state.forms[id]
