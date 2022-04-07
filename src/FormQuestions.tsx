@@ -149,43 +149,34 @@ function QuestionMetadata<T>(props: { question: Question<T> }) {
 
 function QuestionMetadataEdit<T>(props: {
   question: Question<T>
-  onQuestionChange?: (question: Question<T>) => void
+  onQuestionChange: (question: Question<T>) => void
 }) {
   const { question, onQuestionChange } = props
-  const readOnly = !onQuestionChange
 
-  const handleTitleChange:
-    | React.ChangeEventHandler<HTMLInputElement>
-    | undefined = onQuestionChange
-    ? (e) =>
-        onQuestionChange(
-          produce(question, (draft) => {
-            draft.title = e.target.value
-          })
-        )
-    : undefined
+  const handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
+    onQuestionChange(
+      produce(question, (draft) => {
+        draft.title = e.target.value
+      })
+    )
 
-  const handleDescriptionChange:
-    | React.ChangeEventHandler<HTMLTextAreaElement>
-    | undefined = onQuestionChange
-    ? (e) =>
-        onQuestionChange(
-          produce(question, (draft) => {
-            draft.description = e.target.value
-          })
-        )
-    : undefined
+  const handleDescriptionChange: React.ChangeEventHandler<
+    HTMLTextAreaElement
+  > = (e) =>
+    onQuestionChange(
+      produce(question, (draft) => {
+        draft.description = e.target.value
+      })
+    )
 
-  const handleRequiredChange:
-    | React.ChangeEventHandler<HTMLInputElement>
-    | undefined = onQuestionChange
-    ? (e) =>
-        onQuestionChange(
-          produce(question, (draft) => {
-            draft.required = e.target.checked
-          })
-        )
-    : undefined
+  const handleRequiredChange: React.ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) =>
+    onQuestionChange(
+      produce(question, (draft) => {
+        draft.required = e.target.checked
+      })
+    )
 
   return (
     <>
@@ -198,7 +189,6 @@ function QuestionMetadataEdit<T>(props: {
           className="input-block"
           value={question.title}
           onChange={handleTitleChange}
-          readOnly={readOnly}
         />
       </div>
       <div className="form-group">
@@ -209,7 +199,6 @@ function QuestionMetadataEdit<T>(props: {
           className="input-block"
           value={question.description || ''}
           onChange={handleDescriptionChange}
-          readOnly={readOnly}
         ></textarea>
       </div>
       <fieldset className="form-group">
@@ -220,7 +209,6 @@ function QuestionMetadataEdit<T>(props: {
             type="checkbox"
             checked={question.required}
             onChange={handleRequiredChange}
-            readOnly={readOnly}
           />
           <span className="paper-switch-slider round" />
         </label>
@@ -245,7 +233,7 @@ function QuestionShortText(props: { question: Question<ShortText> }) {
 
 function QuestionShortTextEdit(props: {
   question: Question<ShortText>
-  onQuestionChange?: (question: Question<ShortText>) => void
+  onQuestionChange: (question: Question<ShortText>) => void
 }) {
   const { question, onQuestionChange } = props
 
@@ -272,7 +260,7 @@ function QuestionLongText(props: { question: Question<LongText> }) {
 
 function QuestionLongTextEdit(props: {
   question: Question<LongText>
-  onQuestionChange?: (question: Question<LongText>) => void
+  onQuestionChange: (question: Question<LongText>) => void
 }) {
   const { question, onQuestionChange } = props
 
@@ -306,42 +294,40 @@ function QuestionSingleChoice(props: { question: Question<SingleChoice> }) {
 
 function QuestionSingleChoiceEdit(props: {
   question: Question<SingleChoice>
-  onQuestionChange?: (question: Question<SingleChoice>) => void
+  onQuestionChange: (question: Question<SingleChoice>) => void
 }) {
   const { question, onQuestionChange } = props
 
-  let newChoice: JSX.Element | undefined
-  let removeChoice: (choiceId: ChoiceId) => JSX.Element | undefined
-  if (onQuestionChange) {
-    const handleAddChoice = (choice: Choice) =>
-      onQuestionChange(
-        produce(question, (draft) => {
-          draft.definition.push(choice)
-        })
-      )
-    newChoice = <NewChoice onAddChoice={handleAddChoice} />
-
-    const handleRemoveChoice = (choiceId: ChoiceId) =>
-      onQuestionChange(
-        produce(question, (draft) => {
-          draft.definition = draft.definition.filter(
-            (choice) => choice.id !== choiceId
-          )
-        })
-      )
-    removeChoice = (choiceId: ChoiceId) => (
-      <a
-        href="#"
-        className="inline-block margin-left-small text-small"
-        onClick={(e) => {
-          e.preventDefault()
-          handleRemoveChoice(choiceId)
-        }}
-      >
-        Remove
-      </a>
+  const handleAddChoice = (choice: Choice) =>
+    onQuestionChange(
+      produce(question, (draft) => {
+        draft.definition.push(choice)
+      })
     )
-  }
+
+  const newChoice = <NewChoice onAddChoice={handleAddChoice} />
+
+  const handleRemoveChoice = (choiceId: ChoiceId) =>
+    onQuestionChange(
+      produce(question, (draft) => {
+        draft.definition = draft.definition.filter(
+          (choice) => choice.id !== choiceId
+        )
+      })
+    )
+
+  const removeChoice = (choiceId: ChoiceId) => (
+    <a
+      href="#"
+      className="inline-block margin-left-small text-small"
+      onClick={(e) => {
+        e.preventDefault()
+        handleRemoveChoice(choiceId)
+      }}
+    >
+      Remove
+    </a>
+  )
 
   return (
     <>
@@ -362,7 +348,7 @@ function QuestionSingleChoiceEdit(props: {
                 disabled={true}
               />{' '}
               <span className="inline-block">{choice.value}</span>
-              {removeChoice ? removeChoice(choice.id) : null}
+              {removeChoice(choice.id)}
             </label>
           )
         })}
@@ -392,42 +378,40 @@ function QuestionMultipleChoice(props: { question: Question<MultipleChoice> }) {
 
 function QuestionMultipleChoiceEdit(props: {
   question: Question<MultipleChoice>
-  onQuestionChange?: (question: Question<MultipleChoice>) => void
+  onQuestionChange: (question: Question<MultipleChoice>) => void
 }) {
   const { question, onQuestionChange } = props
 
-  let newChoice: JSX.Element | undefined
-  let removeChoice: (choiceId: ChoiceId) => JSX.Element | undefined
-  if (onQuestionChange) {
-    const handleAddChoice = (choice: Choice) =>
-      onQuestionChange(
-        produce(question, (draft) => {
-          draft.definition.push(choice)
-        })
-      )
-    newChoice = <NewChoice onAddChoice={handleAddChoice} />
-
-    const handleRemoveChoice = (choiceId: ChoiceId) =>
-      onQuestionChange(
-        produce(question, (draft) => {
-          draft.definition = draft.definition.filter(
-            (choice) => choice.id !== choiceId
-          )
-        })
-      )
-    removeChoice = (choiceId: ChoiceId) => (
-      <a
-        href="#"
-        className="inline-block margin-left-small text-small"
-        onClick={(e) => {
-          e.preventDefault()
-          handleRemoveChoice(choiceId)
-        }}
-      >
-        Remove
-      </a>
+  const handleAddChoice = (choice: Choice) =>
+    onQuestionChange(
+      produce(question, (draft) => {
+        draft.definition.push(choice)
+      })
     )
-  }
+
+  const newChoice = <NewChoice onAddChoice={handleAddChoice} />
+
+  const handleRemoveChoice = (choiceId: ChoiceId) =>
+    onQuestionChange(
+      produce(question, (draft) => {
+        draft.definition = draft.definition.filter(
+          (choice) => choice.id !== choiceId
+        )
+      })
+    )
+
+  const removeChoice = (choiceId: ChoiceId) => (
+    <a
+      href="#"
+      className="inline-block margin-left-small text-small"
+      onClick={(e) => {
+        e.preventDefault()
+        handleRemoveChoice(choiceId)
+      }}
+    >
+      Remove
+    </a>
+  )
 
   return (
     <>
@@ -448,7 +432,7 @@ function QuestionMultipleChoiceEdit(props: {
                 disabled={true}
               />{' '}
               <span className="inline-block">{choice.value}</span>
-              {removeChoice ? removeChoice(choice.id) : null}
+              {removeChoice(choice.id)}
             </label>
           )
         })}
@@ -521,55 +505,42 @@ function QuestionScale(props: { question: Question<Scale> }) {
 
 function QuestionScaleEdit(props: {
   question: Question<Scale>
-  onQuestionChange?: (question: Question<Scale>) => void
+  onQuestionChange: (question: Question<Scale>) => void
 }) {
   const { question, onQuestionChange } = props
   const definition = question.definition
-  const readOnly = !onQuestionChange
 
-  const handleStartChange:
-    | React.ChangeEventHandler<HTMLInputElement>
-    | undefined = onQuestionChange
-    ? (e) =>
-        onQuestionChange(
-          produce(question, (draft) => {
-            draft.definition.start = e.target.valueAsNumber
-          })
-        )
-    : undefined
+  const handleStartChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
+    onQuestionChange(
+      produce(question, (draft) => {
+        draft.definition.start = e.target.valueAsNumber
+      })
+    )
 
-  const handleEndChange:
-    | React.ChangeEventHandler<HTMLInputElement>
-    | undefined = onQuestionChange
-    ? (e) =>
-        onQuestionChange(
-          produce(question, (draft) => {
-            draft.definition.end = e.target.valueAsNumber
-          })
-        )
-    : undefined
+  const handleEndChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
+    onQuestionChange(
+      produce(question, (draft) => {
+        draft.definition.end = e.target.valueAsNumber
+      })
+    )
 
-  const handleStartLabelChange:
-    | React.ChangeEventHandler<HTMLInputElement>
-    | undefined = onQuestionChange
-    ? (e) =>
-        onQuestionChange(
-          produce(question, (draft) => {
-            draft.definition.startLabel = e.target.value
-          })
-        )
-    : undefined
+  const handleStartLabelChange: React.ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) =>
+    onQuestionChange(
+      produce(question, (draft) => {
+        draft.definition.startLabel = e.target.value
+      })
+    )
 
-  const handleEndLabelChange:
-    | React.ChangeEventHandler<HTMLInputElement>
-    | undefined = onQuestionChange
-    ? (e) =>
-        onQuestionChange(
-          produce(question, (draft) => {
-            draft.definition.endLabel = e.target.value
-          })
-        )
-    : undefined
+  const handleEndLabelChange: React.ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) =>
+    onQuestionChange(
+      produce(question, (draft) => {
+        draft.definition.endLabel = e.target.value
+      })
+    )
 
   return (
     <>
@@ -588,7 +559,6 @@ function QuestionScaleEdit(props: {
               className="input-block"
               value={definition.start}
               onChange={handleStartChange}
-              readOnly={readOnly}
             />
           </div>
         </div>
@@ -602,7 +572,6 @@ function QuestionScaleEdit(props: {
               className="input-block"
               value={definition.startLabel}
               onChange={handleStartLabelChange}
-              readOnly={readOnly}
             />
           </div>
         </div>
@@ -618,7 +587,6 @@ function QuestionScaleEdit(props: {
               className="input-block"
               value={definition.end}
               onChange={handleEndChange}
-              readOnly={readOnly}
             />
           </div>
         </div>
@@ -632,7 +600,6 @@ function QuestionScaleEdit(props: {
               className="input-block"
               value={definition.endLabel}
               onChange={handleEndLabelChange}
-              readOnly={readOnly}
             />
           </div>
         </div>
