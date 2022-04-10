@@ -16,7 +16,12 @@ import {
   ShortText,
   SingleChoice,
 } from './form'
-import { questionAdded, questionUpdated, selectFormById } from './formsSlice'
+import {
+  questionAdded,
+  questionDeleted,
+  questionUpdated,
+  selectFormById,
+} from './formsSlice'
 import { useAppDispatch, useAppSelector } from './hooks'
 
 type Params = {
@@ -104,6 +109,15 @@ function QuestionCard(props: { formId: FormId; formQuestion: FormQuestion }) {
             questionUpdated({
               formId: props.formId,
               formQuestion: formQuestion,
+            })
+          )
+        }}
+        onDelete={() => {
+          setQuestionEdit(false)
+          dispatch(
+            questionDeleted({
+              formId: props.formId,
+              questionId: props.formQuestion.question.id,
             })
           )
         }}
@@ -612,6 +626,7 @@ function QuestionEdit(props: {
   formQuestion: FormQuestion
   onCancel: () => void
   onSubmit: (formQuestion: FormQuestion) => void
+  onDelete: () => void
 }) {
   const [formQuestion, setFormQuestion] = useState(props.formQuestion)
 
@@ -623,6 +638,11 @@ function QuestionEdit(props: {
   const handleSubmit: React.FormEventHandler = (e) => {
     e.preventDefault()
     props.onSubmit(formQuestion)
+  }
+
+  const handleDelete: React.MouseEventHandler = (e) => {
+    e.preventDefault()
+    props.onDelete()
   }
 
   const renderQuestion = (): JSX.Element => {
@@ -678,14 +698,22 @@ function QuestionEdit(props: {
   return (
     <form onSubmit={handleSubmit}>
       {renderQuestion()}
-      <div className="row flex-right">
+      <div className="row flex-edges">
         <input
           type="button"
-          className="paper-btn margin-right"
-          onClick={handleCancel}
-          value="Cancel"
+          className="paper-btn btn-danger"
+          onClick={handleDelete}
+          value="Delete"
         />
-        <input type="submit" className="paper-btn btn-primary" value="Save" />
+        <div>
+          <input
+            type="button"
+            className="paper-btn margin-right"
+            onClick={handleCancel}
+            value="Cancel"
+          />
+          <input type="submit" className="paper-btn btn-primary" value="Save" />
+        </div>
       </div>
     </form>
   )

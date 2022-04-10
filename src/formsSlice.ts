@@ -7,6 +7,7 @@ import {
   FormQuestion,
   generateFormId,
   generateQuestionId,
+  QuestionId,
 } from './form'
 import FormQuestions from './FormQuestions'
 import produce from 'immer'
@@ -79,6 +80,16 @@ export const formsSlice = createSlice({
       )
       state[formId].questions[questionIndex] = formQuestion
     },
+
+    questionDeleted: (
+      state,
+      action: PayloadAction<{ formId: FormId; questionId: QuestionId }>
+    ) => {
+      const { formId, questionId } = action.payload
+      state[formId].questions = state[formId].questions.filter(
+        (x) => x.question.id !== questionId
+      )
+    },
   },
 })
 
@@ -87,6 +98,7 @@ export const {
   formSettingsUpdated,
   questionAdded,
   questionUpdated,
+  questionDeleted,
 } = formsSlice.actions
 
 export const selectFormById = (state: RootState, id: FormId): Form => {
