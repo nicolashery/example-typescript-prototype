@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "prettier": "prettier src --write",
-    "nanoid": "nanoid --alphabet 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz --size 11"
+    "nanoid": "nanoid --alphabet 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz --size 11",
+    "generate-responses": "ts-node --compilerOptions '{\"module\":\"commonjs\"}' src/data/generate-responses.ts"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",
@@ -20,11 +21,14 @@
     "react-router-dom": "^6.2.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^6.1.2",
     "@originjs/vite-plugin-content": "^1.0.1",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@vitejs/plugin-react": "^1.0.7",
+    "csv-stringify": "^6.0.5",
     "prettier": "^2.6.0",
+    "ts-node": "^10.7.0",
     "typescript": "^4.5.4",
     "vite": "^2.8.0",
     "vite-plugin-checker": "^0.4.3"
