@@ -14,7 +14,7 @@ function FormNav() {
   return (
     <>
       <h3 className="row flex-center margin-none">{form.name}</h3>
-      <nav className="row flex-center">
+      <nav className="subnav row flex-center margin-top-small">
         <ul className="inline">
           <li>
             <NavLink to="settings">Settings</NavLink>

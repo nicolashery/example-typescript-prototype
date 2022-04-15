@@ -4,7 +4,11 @@ import Forms from './Forms'
 import Account from './Account'
 import FormSettings from './FormSettings'
 import FormQuestions from './FormQuestions'
-import FormResponses from './FormResponses'
+import {
+  FormResponsesLayout,
+  FormResponsesStatistics,
+  FormResponsesTable,
+} from './FormResponses'
 import FormNav from './FormNav'
 import FormCreate from './FormCreate'
 
@@ -20,7 +24,11 @@ function App() {
             <Route index element={<Navigate to="settings" replace />} />
             <Route path="settings" element={<FormSettings />} />
             <Route path="questions" element={<FormQuestions />} />
-            <Route path="responses" element={<FormResponses />} />
+            <Route path="responses" element={<FormResponsesLayout />}>
+              <Route index element={<Navigate to="table" replace />} />
+              <Route path="table" element={<FormResponsesTable />} />
+              <Route path="statistics" element={<FormResponsesStatistics />} />
+            </Route>
           </Route>
         </Route>
         <Route path="account" element={<Account />} />
