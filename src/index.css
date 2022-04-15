@@ -18,3 +18,14 @@ nav a.active {
 .text-right {
   text-align: right;
 }
+
+.table-container-scroll {
+  overflow-x: scroll;
+}
+
+.table-scroll th, .table-scroll td {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
