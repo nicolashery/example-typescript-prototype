@@ -1,7 +1,10 @@
 import { NavLink, Outlet, useParams } from 'react-router-dom'
+import chartXkcd from 'chart.xkcd'
 import { FormId } from './form'
 import { useAppSelector } from './hooks'
 import { selectFormResponses } from './responsesSlice'
+import { BarChart, PieChart } from './chart'
+import { QuestionStatistics } from './statistics'
 
 type Params = {
   formId: FormId
@@ -82,5 +85,61 @@ export function FormResponsesTable() {
 }
 
 export function FormResponsesStatistics() {
-  return <p>Statistics</p>
+  const params = useParams() as Params
+  const { statistics } = useAppSelector((state) =>
+    selectFormResponses(state, params.formId)
+  )
+
+  const renderQuestionStatistics = (item: QuestionStatistics): JSX.Element => {
+    switch (item.tag) {
+      case 'bar':
+        return (
+          <BarChart
+            config={{
+              title: item.statistics.title,
+              data: {
+                labels: item.statistics.data.map((x: any) => x.label),
+                datasets: [
+                  {
+                    data: item.statistics.data.map((x: any) => x.value),
+                  },
+                ],
+              },
+              options: {
+                yTickCount: 4,
+              },
+            }}
+          />
+        )
+      case 'pie':
+        return (
+          <PieChart
+            config={{
+              title: item.statistics.title,
+              data: {
+                labels: item.statistics.data.map((x: any) => x.label),
+                datasets: [
+                  {
+                    data: item.statistics.data.map((x: any) => x.value),
+                  },
+                ],
+              },
+              options: {
+                legendPosition: chartXkcd.config.positionType.upRight,
+              },
+            }}
+          />
+        )
+    }
+  }
+
+  return (
+    <>
+      {statistics.map((item) => (
+        <div key={item.statistics.questionId} className="chart margin-bottom">
+          {renderQuestionStatistics(item)}
+        </div>
+      ))}
+    </>
+  )
 }

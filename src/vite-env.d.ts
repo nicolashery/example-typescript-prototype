@@ -10,3 +10,6 @@ declare module '*.csv' {
   const data: any
   export default data
 }
+
+// Libraries with no type definitions
+declare module 'chart.xkcd'

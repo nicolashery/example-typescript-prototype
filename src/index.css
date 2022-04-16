@@ -33,3 +33,9 @@ nav.subnav ul.inline {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.chart {
+  max-width: 600px;
+  margin-right: auto;
+  margin-left: auto;
+}
