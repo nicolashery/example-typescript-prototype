@@ -98,10 +98,10 @@ export function FormResponsesStatistics() {
             config={{
               title: item.statistics.title,
               data: {
-                labels: item.statistics.data.map((x: any) => x.label),
+                labels: item.statistics.data.map((x) => x.label),
                 datasets: [
                   {
-                    data: item.statistics.data.map((x: any) => x.value),
+                    data: item.statistics.data.map((x) => x.value),
                   },
                 ],
               },
@@ -117,15 +117,43 @@ export function FormResponsesStatistics() {
             config={{
               title: item.statistics.title,
               data: {
-                labels: item.statistics.data.map((x: any) => x.label),
+                labels: item.statistics.data.map((x) => x.label),
                 datasets: [
                   {
-                    data: item.statistics.data.map((x: any) => x.value),
+                    data: item.statistics.data.map((x) => x.value),
                   },
                 ],
               },
               options: {
                 legendPosition: chartXkcd.config.positionType.upRight,
+              },
+            }}
+          />
+        )
+      case 'scale':
+        return (
+          <BarChart
+            config={{
+              title: item.statistics.title,
+              data: {
+                labels: item.statistics.data.values.map((x, index) => {
+                  if (index === 0) {
+                    return `${x.label} (${item.statistics.data.startLabel})`
+                  }
+                  if (index === item.statistics.data.values.length - 1) {
+                    return `${x.label} (${item.statistics.data.endLabel})`
+                  }
+                  return x.label
+                }),
+                datasets: [
+                  {
+                    data: item.statistics.data.values.map((x) => x.value),
+                  },
+                ],
+              },
+              options: {
+                yTickCount: 4,
+                dataColors: item.statistics.data.values.map(() => '#28a3dd'),
               },
             }}
           />
