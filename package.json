@@ -14,6 +14,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",
     "chart.xkcd": "^1.1.13",
+    "js-yaml": "^4.1.0",
     "nanoid": "^3.3.1",
     "papercss": "^1.8.3",
     "react": "^17.0.2",

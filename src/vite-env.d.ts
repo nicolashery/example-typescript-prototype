@@ -13,3 +13,4 @@ declare module '*.csv' {
 
 // Libraries with no type definitions
 declare module 'chart.xkcd'
+declare module 'js-yaml'

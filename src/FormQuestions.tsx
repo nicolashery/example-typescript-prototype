@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { NavLink, Outlet, useParams } from 'react-router-dom'
 import produce from 'immer'
+import yaml from 'js-yaml'
 import {
   allQuestionTypes,
   Choice,
@@ -28,7 +29,46 @@ type Params = {
   formId: FormId
 }
 
-function FormQuestions() {
+export function FormQuestionsLayout() {
+  const params = useParams() as Params
+  const form = useAppSelector((state) => selectFormById(state, params.formId))
+
+  if (form.questions.length === 0) {
+    return (
+      <>
+        <p>Your form doesn't have any questions yet.</p>
+        <QuestionCreate formId={params.formId} />
+      </>
+    )
+  }
+
+  return (
+    <>
+      <FormQuestionsNav questionsCount={form.questions.length} />
+      <Outlet />
+    </>
+  )
+}
+
+function FormQuestionsNav(props: { questionsCount: number }) {
+  return (
+    <nav className="subnav row flex-edges flex-middle">
+      <div>
+        Questions: <strong>{props.questionsCount}</strong>
+      </div>
+      <ul className="inline">
+        <li>
+          <NavLink to="list">List</NavLink>
+        </li>
+        <li>
+          <NavLink to="yaml">YAML</NavLink>
+        </li>
+      </ul>
+    </nav>
+  )
+}
+
+export function FormQuestionsList() {
   const params = useParams() as Params
   const form = useAppSelector((state) => selectFormById(state, params.formId))
 
@@ -928,4 +968,13 @@ const newFormQuestion = (questionType: QuestionType): FormQuestion => {
   }
 }
 
-export default FormQuestions
+export function FormQuestionsYaml() {
+  const params = useParams() as Params
+  const form = useAppSelector((state) => selectFormById(state, params.formId))
+
+  return (
+    <pre>
+      <code>{yaml.dump(form.questions)}</code>
+    </pre>
+  )
+}

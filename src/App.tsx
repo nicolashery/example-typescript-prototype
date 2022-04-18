@@ -3,7 +3,11 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import Forms from './Forms'
 import Account from './Account'
 import FormSettings from './FormSettings'
-import FormQuestions from './FormQuestions'
+import {
+  FormQuestionsLayout,
+  FormQuestionsList,
+  FormQuestionsYaml,
+} from './FormQuestions'
 import {
   FormResponsesLayout,
   FormResponsesStatistics,
@@ -23,7 +27,11 @@ function App() {
           <Route path=":formId" element={<FormLayout />}>
             <Route index element={<Navigate to="settings" replace />} />
             <Route path="settings" element={<FormSettings />} />
-            <Route path="questions" element={<FormQuestions />} />
+            <Route path="questions" element={<FormQuestionsLayout />}>
+              <Route index element={<Navigate to="list" replace />} />
+              <Route path="list" element={<FormQuestionsList />} />
+              <Route path="yaml" element={<FormQuestionsYaml />} />
+            </Route>
             <Route path="responses" element={<FormResponsesLayout />}>
               <Route index element={<Navigate to="table" replace />} />
               <Route path="table" element={<FormResponsesTable />} />
