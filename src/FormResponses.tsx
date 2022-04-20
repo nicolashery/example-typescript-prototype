@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useParams } from 'react-router-dom'
 import chartXkcd from 'chart.xkcd'
+import { stringify } from 'csv-stringify/browser/esm/sync'
 import { FormId } from './form'
 import { useAppSelector } from './hooks'
 import { selectFormResponses } from './responsesSlice'
@@ -44,6 +45,9 @@ function FormResponsesNav(props: { responseCount: number }) {
         </li>
         <li>
           <NavLink to="statistics">Statistics</NavLink>
+        </li>
+        <li>
+          <NavLink to="csv">CSV</NavLink>
         </li>
       </ul>
     </nav>
@@ -169,5 +173,18 @@ export function FormResponsesStatistics() {
         </div>
       ))}
     </>
+  )
+}
+
+export function FormResponsesCsv() {
+  const params = useParams() as Params
+  const { header, responses } = useAppSelector((state) =>
+    selectFormResponses(state, params.formId)
+  )
+
+  return (
+    <pre>
+      <code>{stringify([header].concat(responses))}</code>
+    </pre>
   )
 }

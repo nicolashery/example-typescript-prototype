@@ -12,6 +12,7 @@ import {
   FormResponsesLayout,
   FormResponsesStatistics,
   FormResponsesTable,
+  FormResponsesCsv,
 } from './FormResponses'
 import FormNav from './FormNav'
 import FormCreate from './FormCreate'
@@ -36,6 +37,7 @@ function App() {
               <Route index element={<Navigate to="table" replace />} />
               <Route path="table" element={<FormResponsesTable />} />
               <Route path="statistics" element={<FormResponsesStatistics />} />
+              <Route path="csv" element={<FormResponsesCsv />} />
             </Route>
           </Route>
         </Route>
