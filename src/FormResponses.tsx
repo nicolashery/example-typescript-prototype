@@ -6,6 +6,7 @@ import { useAppSelector } from './hooks'
 import { selectFormResponses } from './responsesSlice'
 import { BarChart, PieChart } from './chart'
 import { QuestionStatistics } from './statistics'
+import Code from './Code'
 
 type Params = {
   formId: FormId
@@ -182,9 +183,5 @@ export function FormResponsesCsv() {
     selectFormResponses(state, params.formId)
   )
 
-  return (
-    <pre>
-      <code>{stringify([header].concat(responses))}</code>
-    </pre>
-  )
+  return <Code language="csv" code={stringify([header].concat(responses))} />
 }

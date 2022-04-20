@@ -24,6 +24,7 @@ import {
   selectFormById,
 } from './formsSlice'
 import { useAppDispatch, useAppSelector } from './hooks'
+import Code from './Code'
 
 type Params = {
   formId: FormId
@@ -972,9 +973,5 @@ export function FormQuestionsYaml() {
   const params = useParams() as Params
   const form = useAppSelector((state) => selectFormById(state, params.formId))
 
-  return (
-    <pre>
-      <code>{yaml.dump(form.questions)}</code>
-    </pre>
-  )
+  return <Code language="yaml" code={yaml.dump(form.questions)} />
 }
