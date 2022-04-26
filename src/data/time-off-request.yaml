@@ -1,4 +1,68 @@
 id: RGNZReiE2RC
 name: Time Off Request
 published: false
-questions: []
+questions:
+  - tag: shortText
+    question:
+      id: mhzO86viHfh
+      title: Name
+      description:
+      required: false
+      definition:
+  - tag: shortText
+    question:
+      id: ayCKzvjH5CV
+      title: Leave date(s)
+      description:
+      required: true
+      definition:
+  - tag: singleChoice
+    question:
+      id: jWsKOjyHTis
+      title: Part of the day or all day?
+      description:
+      required: true
+      definition:
+        - id: q0eAHdYhR1j
+          value: AM
+        - id: 96UxShjmLmU
+          value: PM
+        - id: HFZycN80Dtu
+          value: All day
+  - tag: singleChoice
+    question:
+      id: E2snBnxDqlV
+      title: Type of leave
+      description:
+      required: true
+      definition:
+        - id: iSPJqi8Hshx
+          value: Sick leave
+        - id: g6JVTPWeYG0
+          value: Personal leave
+        - id: pE8CKSTqSax
+          value: Jury duty or legal leave
+        - id: uGBAgnZNICn
+          value: Bereavement leave
+        - id: LCqJGEUa6rt
+          value: Emergency leave
+        - id: uKjbVfLWPvl
+          value: Temporary leave
+        - id: DhXC9XELc54
+          value: Leave without pay
+        - id: 9RHbG5YQsnP
+          value: Other
+  - tag: shortText
+    question:
+      id: LBsACRFzVmH
+      title: Type of leave (Other)
+      description: If you replied "Other" above, please describe type of leave here.
+      required: false
+      definition:
+  - tag: longText
+    question:
+      id: wQwXqDMqyLa
+      title: Reason for leave
+      description:
+      required: false
+      definition:
