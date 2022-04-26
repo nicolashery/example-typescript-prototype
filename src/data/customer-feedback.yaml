@@ -1,0 +1,75 @@
+id: iNrYZSmQw8N
+name: Customer Feedback
+published: true
+questions:
+  - tag: singleChoice
+    question:
+      id: Rq5HRcqjiFr
+      title: Feedback type
+      description:
+      required: true
+      definition:
+        - id: c3gaXhVe7iJ
+          value: Comments
+        - id: IMlec5MMSly
+          value: Questions
+        - id: tmyM2qJbeUu
+          value: Bug Report
+        - id: dA2ccqh0DPs
+          value: Feature Request
+  - tag: longText
+    question:
+      id: BSNBAUariQf
+      title: Feedback
+      description:
+      required: true
+      definition:
+  - tag: longText
+    question:
+      id: LUgOnGflfjW
+      title: Suggestions for improvement
+      description:
+      required: false
+      definition:
+  - tag: multipleChoice
+    question:
+      id: EaVgPo51PDe
+      title: Product(s) used
+      description: Select one or more products that you use
+      required: false
+      definition:
+        - id: qbGZ59TVSef
+          value: Invoicing
+        - id: k6YKeeT5l2q
+          value: Customer Management
+        - id: AzShpxChnDt
+          value: Accounting
+        - id: KWsdZxCRWpm
+          value: Inventory Management
+        - id: oV84QdCx9eX
+          value: Employee Management
+  - tag: scale
+    question:
+      id: HAR7cDvgDqf
+      title: How likely are you to recommend us to a friend or colleague?
+      description:
+      required: true
+      definition:
+        start: 0
+        end: 10
+        startLabel: Not at all likely
+        endLabel: Extremely likely
+  - tag: shortText
+    question:
+      id: SsMALDiMwfF
+      title: Name
+      description:
+      required: false
+      definition:
+  - tag: shortText
+    question:
+      id: mP5eQz5WQus
+      title: Email
+      description: If you want to receive updates on your feedback, provide your contact email here
+      required: false
+      definition:

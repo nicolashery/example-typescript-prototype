@@ -56,7 +56,7 @@ questions:
     question:
       id: LBsACRFzVmH
       title: Type of leave (Other)
-      description: If you replied "Other" above, please describe type of leave here.
+      description: If you replied "Other" above, please describe type of leave here
       required: false
       definition:
   - tag: longText

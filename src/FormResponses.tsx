@@ -142,10 +142,16 @@ export function FormResponsesStatistics() {
               title: item.statistics.title,
               data: {
                 labels: item.statistics.data.values.map((x, index) => {
-                  if (index === 0) {
+                  if (
+                    index === 0 &&
+                    item.statistics.data.startLabel.length > 0
+                  ) {
                     return `${x.label} (${item.statistics.data.startLabel})`
                   }
-                  if (index === item.statistics.data.values.length - 1) {
+                  if (
+                    index === item.statistics.data.values.length - 1 &&
+                    item.statistics.data.endLabel.length > 0
+                  ) {
                     return `${x.label} (${item.statistics.data.endLabel})`
                   }
                   return x.label

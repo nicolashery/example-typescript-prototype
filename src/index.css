@@ -1,3 +1,11 @@
+a:visited {
+  color: var(--secondary);
+}
+
+nav a:visited {
+  color: var(--primary);
+}
+
 nav ul.inline li a {
   font-size: 1rem;
 }

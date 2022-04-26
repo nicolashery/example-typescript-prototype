@@ -48,6 +48,47 @@ const generateFormResponses = (
   return result
 }
 
+const customerFeedbackResponses: Array<ResponseDefinition> = [
+  {
+    question: 'Feedback type',
+    response: singleChoice([
+      'Comments',
+      'Questions',
+      'Bug Report',
+      'Feature Request',
+    ]),
+  },
+  {
+    question: 'Feedback',
+    response: () =>
+      faker.lorem.sentences(faker.datatype.number({ min: 1, max: 8 })),
+  },
+  {
+    question: 'Suggestions for improvement',
+    response: optional(() =>
+      faker.lorem.sentences(faker.datatype.number({ min: 3, max: 10 }))
+    ),
+  },
+  {
+    question: 'Product(s) used',
+    response: optional(
+      multipleChoices([
+        'Invoicing',
+        'Customer Management',
+        'Accounting',
+        'Inventory Management',
+        'Employee Management',
+      ])
+    ),
+  },
+  {
+    question: 'How likely are you to recommend us to a friend or colleague?',
+    response: () => faker.datatype.number({ min: 0, max: 10 }) + '',
+  },
+  { question: 'Name', response: optional(faker.name.findName) },
+  { question: 'Email', response: optional(faker.internet.email) },
+]
+
 const orderRequestResponses: Array<ResponseDefinition> = [
   {
     question: 'Are you a new or existing customer?',
@@ -105,6 +146,11 @@ const orderRequestResponses: Array<ResponseDefinition> = [
 ]
 
 const run = () => {
+  fs.writeFileSync(
+    './src/data/customer-feedback-responses.csv',
+    stringify(generateFormResponses(customerFeedbackResponses, 132))
+  )
+
   fs.writeFileSync(
     './src/data/order-request-responses.csv',
     stringify(generateFormResponses(orderRequestResponses, 154))
