@@ -43,3 +43,19 @@ To regenerate random responses for the sample data, run:
 ```
 npm run generate-responses
 ```
+
+## Deployment
+
+Build for production using:
+
+```
+npm run build
+```
+
+Preview the build locally with:
+
+```
+npm run preview
+```
+
+This repository is automatically deployed to [Netlify](https://www.netlify.com/).
