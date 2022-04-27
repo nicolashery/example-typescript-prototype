@@ -2,6 +2,8 @@
 
 This is an example application. It showcases a way to prototype in the browser using TypeScript, React, and Redux.
 
+You can find a deployed demo version here: https://example-typescript-prototype.netlify.app/
+
 ## Quick start
 
 Make sure you have [Node.js](https://nodejs.org/) installed (for example using [nvm](https://github.com/nvm-sh/nvm)).
