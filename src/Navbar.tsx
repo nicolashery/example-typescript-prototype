@@ -24,6 +24,9 @@ function Navbar() {
               <NavLink to="account">Account</NavLink>
             </li>
             <li>
+              <NavLink to="about">About</NavLink>
+            </li>
+            <li>
               <a href="#">Logout</a>
             </li>
           </ul>

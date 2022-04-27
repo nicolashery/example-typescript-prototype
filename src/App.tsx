@@ -16,6 +16,7 @@ import {
 } from './FormResponses'
 import FormNav from './FormNav'
 import FormCreate from './FormCreate'
+import About from './About'
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           </Route>
         </Route>
         <Route path="account" element={<Account />} />
+        <Route path="about" element={<About />} />
       </Route>
     </Routes>
   )

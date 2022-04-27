@@ -60,6 +60,3 @@ function Account() {
 }
 
 export default Account
-function dispatch(action: any) {
-  throw new Error('Function not implemented.')
-}
