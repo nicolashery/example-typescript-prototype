@@ -1,3 +1,6 @@
+/* PaperCSS fixes
+-------------------------------------------------------- */
+
 a:visited {
   color: var(--secondary);
 }
@@ -5,6 +8,9 @@ a:visited {
 nav a:visited {
   color: var(--primary);
 }
+
+/* PaperCSS tweaks
+-------------------------------------------------------- */
 
 nav ul.inline li a {
   font-size: 1rem;
@@ -19,6 +25,9 @@ nav.subnav ul.inline {
   margin-top: 0;
 }
 
+/* Utility classes
+-------------------------------------------------------- */
+
 .text-small {
   font-size: 0.8rem;
 }
@@ -31,6 +40,9 @@ nav.subnav ul.inline {
   text-align: right;
 }
 
+/* Tables
+-------------------------------------------------------- */
+
 .table-container-scroll {
   overflow-x: scroll;
 }
@@ -42,11 +54,17 @@ nav.subnav ul.inline {
   text-overflow: ellipsis;
 }
 
+/* Charts
+-------------------------------------------------------- */
+
 .chart {
   max-width: 600px;
   margin-right: auto;
   margin-left: auto;
 }
+
+/* Code blocks
+-------------------------------------------------------- */
 
 code[class*="language-"], pre[class*="language-"] {
   font-size: 16px;
