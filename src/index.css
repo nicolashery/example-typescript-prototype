@@ -16,13 +16,16 @@ nav ul.inline li a {
   font-size: 1rem;
 }
 
+nav.subnav ul.inline {
+  margin-top: 0;
+}
+
+/* React Router
+-------------------------------------------------------- */
+
 nav a.active {
   color: var(--muted);
   border-bottom-color: var(--muted);
-}
-
-nav.subnav ul.inline {
-  margin-top: 0;
 }
 
 /* Utility classes
