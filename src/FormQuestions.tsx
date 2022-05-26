@@ -99,28 +99,34 @@ function showQuestionType(questionType: QuestionType): string {
       return 'Multiple choice'
     case 'scale':
       return 'Scale'
+    default:
+      const _exhaustiveCheck: never = questionType
+      return _exhaustiveCheck
   }
 }
 
 function QuestionCard(props: { formId: FormId; formQuestion: FormQuestion }) {
   const dispatch = useAppDispatch()
 
-  const { tag, question } = props.formQuestion
+  const { formQuestion } = props
 
   const [showQuestionEdit, setQuestionEdit] = useState(false)
 
   let renderQuestion = (): JSX.Element => {
-    switch (tag) {
+    switch (formQuestion.tag) {
       case 'shortText':
-        return <QuestionShortText question={question} />
+        return <QuestionShortText question={formQuestion.question} />
       case 'longText':
-        return <QuestionLongText question={question} />
+        return <QuestionLongText question={formQuestion.question} />
       case 'singleChoice':
-        return <QuestionSingleChoice question={question} />
+        return <QuestionSingleChoice question={formQuestion.question} />
       case 'multipleChoice':
-        return <QuestionMultipleChoice question={question} />
+        return <QuestionMultipleChoice question={formQuestion.question} />
       case 'scale':
-        return <QuestionScale question={question} />
+        return <QuestionScale question={formQuestion.question} />
+      default:
+        const _exhaustiveCheck: never = formQuestion
+        return _exhaustiveCheck
     }
   }
 
@@ -171,7 +177,7 @@ function QuestionCard(props: { formId: FormId; formQuestion: FormQuestion }) {
   return (
     <div className="card margin-bottom">
       <div className="card-body">
-        <h5 className="card-subtitle">{showQuestionType(tag)}</h5>
+        <h5 className="card-subtitle">{showQuestionType(formQuestion.tag)}</h5>
         {renderQuestion()}
         {editButton}
       </div>
@@ -733,6 +739,9 @@ function QuestionEdit(props: {
             }
           />
         )
+      default:
+        const _exhaustiveCheck: never = formQuestion
+        return _exhaustiveCheck
     }
   }
 
@@ -862,6 +871,9 @@ function QuestionCreate(props: { formId: FormId }) {
             }
           />
         )
+      default:
+        const _exhaustiveCheck: never = formQuestion
+        return _exhaustiveCheck
     }
   }
 
@@ -966,6 +978,9 @@ const newFormQuestion = (questionType: QuestionType): FormQuestion => {
           },
         },
       }
+    default:
+      const _exhaustiveCheck: never = questionType
+      return _exhaustiveCheck
   }
 }
 

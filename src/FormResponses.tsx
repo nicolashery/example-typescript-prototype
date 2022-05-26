@@ -169,6 +169,9 @@ export function FormResponsesStatistics() {
             }}
           />
         )
+      default:
+        const _exhaustiveCheck: never = item
+        return _exhaustiveCheck
     }
   }
 
