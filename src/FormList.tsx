@@ -1,11 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Form } from './form'
 
-type FormListProps = {
-  forms: Array<Form>
-}
-
-function FormList(props: FormListProps) {
+function FormList(props: { forms: Array<Form> }) {
   return (
     <>
       {props.forms.map((form) => (
