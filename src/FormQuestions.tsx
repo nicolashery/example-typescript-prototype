@@ -780,9 +780,9 @@ function QuestionCreate(props: { formId: FormId }) {
   const [questionType, setQuestionType] = useState<QuestionType>(
     initialFormQuestion.tag
   )
-  const onQuestionTypeChanged: React.ChangeEventHandler<HTMLSelectElement> = (
-    e
-  ) => {
+  const handleQuestionTypeChanged: React.ChangeEventHandler<
+    HTMLSelectElement
+  > = (e) => {
     const type = e.target.value as QuestionType
     setQuestionType(type)
     setFormQuestion(newFormQuestion(type))
@@ -887,7 +887,7 @@ function QuestionCreate(props: { formId: FormId }) {
             <select
               id="questionType"
               value={questionType}
-              onChange={onQuestionTypeChanged}
+              onChange={handleQuestionTypeChanged}
             >
               {allQuestionTypes.map((type) => (
                 <option key={type} value={type}>
