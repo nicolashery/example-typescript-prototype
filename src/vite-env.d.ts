@@ -14,5 +14,4 @@ declare module '*.csv' {
 // Libraries with no type definitions
 declare module 'chart.xkcd'
 declare module 'js-yaml'
-declare module 'prismjs/components/prism-yaml'
-declare module 'prismjs/components/prism-csv'
+declare module 'prismjs/components/*'
