@@ -14,12 +14,12 @@ const optional = (response: ResponseGenerator): ResponseGenerator => {
 }
 
 const singleChoice = (choices: Array<string>): ResponseGenerator => {
-  return () => faker.random.arrayElement(choices)
+  return () => faker.helpers.arrayElement(choices)
 }
 
 const multipleChoices = (choices: Array<string>): ResponseGenerator => {
   return () =>
-    faker.random
+    faker.helpers
       .arrayElements(
         choices,
         faker.datatype.number({ min: 1, max: choices.length })
@@ -127,7 +127,10 @@ const orderRequestResponses: Array<ResponseDefinition> = [
     ),
   },
   { question: 'Your name', response: faker.name.findName },
-  { question: 'Phone number', response: faker.phone.phoneNumberFormat },
+  {
+    question: 'Phone number',
+    response: () => faker.phone.phoneNumber('###-###-####'),
+  },
   { question: 'Email', response: optional(faker.internet.email) },
   {
     question: 'Preferred contact method',
