@@ -12,29 +12,29 @@
     "generate-responses": "ts-node --compilerOptions '{\"module\":\"commonjs\"}' src/data/generate-responses.ts"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.8.0",
+    "@reduxjs/toolkit": "^1.8.2",
     "chart.xkcd": "^1.1.13",
     "csv-stringify": "^6.1.0",
     "js-yaml": "^4.1.0",
-    "nanoid": "^3.3.1",
+    "nanoid": "^3.3.4",
     "papercss": "^1.8.3",
     "prismjs": "^1.28.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-redux": "^7.2.6",
-    "react-router-dom": "^6.2.2"
+    "react-redux": "^7.2.8",
+    "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^6.1.2",
+    "@faker-js/faker": "^6.3.1",
     "@originjs/vite-plugin-content": "^1.0.1",
     "@types/prismjs": "^1.26.0",
-    "@types/react": "^17.0.33",
-    "@types/react-dom": "^17.0.10",
-    "@vitejs/plugin-react": "^1.0.7",
-    "prettier": "^2.6.0",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.5.4",
-    "vite": "^2.8.0",
-    "vite-plugin-checker": "^0.4.3"
+    "@types/react": "^17.0.45",
+    "@types/react-dom": "^17.0.17",
+    "@vitejs/plugin-react": "^1.3.2",
+    "prettier": "^2.6.2",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3",
+    "vite": "^2.9.10",
+    "vite-plugin-checker": "^0.4.6"
   }
 }
