@@ -3,8 +3,11 @@ function About() {
     <>
       <h3>About</h3>
       <p>
-        This is an example application. It showcases a way to prototype in the
-        browser using TypeScript, React, and Redux.
+        This is an example application created for the article{' '}
+        <a href="https://nicolashery.com/prototyping-with-typescript/">
+          Prototyping and data modeling in the browser using TypeScript
+        </a>
+        .
       </p>
       <p>
         The source code is avaiable on{' '}

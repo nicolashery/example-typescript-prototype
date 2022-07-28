@@ -1,6 +1,6 @@
 # example-typescript-prototype
 
-This is an example application. It showcases a way to prototype in the browser using TypeScript, React, and Redux.
+This is an example application created for the article [Prototyping and data modeling in the browser using TypeScript](https://nicolashery.com/prototyping-with-typescript/).
 
 You can find a deployed demo version here: https://example-typescript-prototype.netlify.app/
 
